@@ -4,15 +4,26 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>ADIS</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="./style.css" />
 </head>
 <body>
   <main id="app" class="container">
-    <!-- Fallback content if JS fails -->
-    <noscript>Please enable JavaScript to view the site.</noscript>
+    <!-- Static Home so you see content even if JS fails -->
+    <div class="stack" id="static-home">
+      <h1>“Ted, I'm gonna teach you how to live.”</h1>
+      <p class="lead">
+        I always wanted someone to teach me how to live… Still, I like to believe that I had—and likely still have—more lessons to learn in life.
+      </p>
+      <p>Through learning the hard way, I’ve taken down a few things worth sharing with the world.</p>
+      <h2 class="muted">Aspire. Develop. Inspire. Sustain.</h2>
+      <div class="section"><span class="section-title" data-nav="stoicism">1. Stoicism</span></div>
+      <div class="section"><span class="section-title" data-nav="health">2. Health is Wealth</span></div>
+      <div class="section"><span class="section-title" data-nav="faith">3. Faith</span></div>
+      <div class="section"><span class="section-title" data-nav="education">4. Education</span></div>
+    </div>
   </main>
 
-  <footer class="footer" id="footer">
+  <footer class="footer">
     <nav class="nav" id="nav">
       <button data-page="home" class="active">Home</button>
       <button data-page="stoicism">Stoicism</button>
@@ -26,6 +37,7 @@
     </nav>
   </footer>
 
-  <script src="script.js" defer></script>
+  <!-- Force relative path; add cache-buster to beat stale assets -->
+  <script src="./script.js?v=1" type="text/javascript"></script>
 </body>
 </html>
