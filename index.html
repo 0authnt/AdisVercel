@@ -8,13 +8,13 @@
 </head>
 <body>
   <main id="app" class="container">
-    <!-- Static Home so you see content even if JS fails -->
+    <!-- Fallback content if JS fails so you never see a blank page -->
     <div class="stack" id="static-home">
       <h1>“Ted, I'm gonna teach you how to live.”</h1>
       <p class="lead">
-        I always wanted someone to teach me how to live… Still, I like to believe that I had—and likely still have—more lessons to learn in life.
+        I always wanted someone to teach me how to live. I had parents, I just had a remarkably hard time listening. Maybe it was the rough relationship with my dad or the rough life in general, but I always wanted someone to teach me what to do growing up. The person I am today is from learning that nobody was going to be able to do that for me, but me. My parents certainly molded me into the man I am today; though I was a rough kid, I will be eternally grateful to them for doing so. Still, I like to believe that I had—and likely still have—more lessons to learn in life.
       </p>
-      <p>Through learning the hard way, I’ve taken down a few things worth sharing with the world.</p>
+      <p>Through learning the hard way, I’ve taken down a few things worth sharing with the world (or whoever has a few minutes to read this).</p>
       <h2 class="muted">Aspire. Develop. Inspire. Sustain.</h2>
       <div class="section"><span class="section-title" data-nav="stoicism">1. Stoicism</span></div>
       <div class="section"><span class="section-title" data-nav="health">2. Health is Wealth</span></div>
@@ -37,7 +37,7 @@
     </nav>
   </footer>
 
-  <!-- Force relative path; add cache-buster to beat stale assets -->
-  <script src="./script.js?v=1" type="text/javascript"></script>
+  <!-- Do not change the name. Keep it as script.js -->
+  <script src="./script.js" defer></script>
 </body>
 </html>
