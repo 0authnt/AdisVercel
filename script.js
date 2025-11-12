@@ -1,8 +1,10 @@
-// Minimal hash-based router with safe initial render and active-tab sync.
+// Hash-based router. No dependencies.
 (function () {
   const app = document.getElementById("app");
   const nav = document.getElementById("nav");
+  if (!app || !nav) return;
 
+  // ---- content pages (full content preserved) ----
   const pages = {
     home: () => `
       <div class="stack">
@@ -11,30 +13,26 @@
           I always wanted someone to teach me how to live. I had parents, I just had a remarkably hard time listening. Maybe it was the rough relationship with my dad or the rough life in general, but I always wanted someone to teach me what to do growing up. The person I am today is from learning that nobody was going to be able to do that for me, but me. My parents certainly molded me into the man I am today; though I was a rough kid, I will be eternally grateful to them for doing so. Still, I like to believe that I had—and likely still have—more lessons to learn in life.
         </p>
         <p>Through learning the hard way, I’ve taken down a few things worth sharing with the world (or whoever has a few minutes to read this).</p>
-
         <h2 class="muted">Aspire. Develop. Inspire. Sustain.</h2>
 
         <div class="section">
           <span class="section-title" data-nav="stoicism">1. Stoicism</span>
           <p>It’s not just an ideology. It’s a way of life. We as men must be strong if we are to lead — in our families, our work, and our communities. Strength without ego, leadership with accountability.</p>
         </div>
-
         <div class="section">
           <span class="section-title" data-nav="health">2. Health is Wealth</span>
           <p>Imagine you could have any car, but it’s the only one you’ll ever drive. You’d maintain it with care. Your body deserves the same respect — train it, feed it, and keep it ready for life’s demands.</p>
         </div>
-
         <div class="section">
           <span class="section-title" data-nav="faith">3. Faith</span>
           <p>Faith grounds us. I believe in God, and I’ve learned repentance isn’t about words — it’s about change. Separate from what drags you down and walk with intent.</p>
         </div>
-
         <div class="section">
           <span class="section-title" data-nav="education">4. Education</span>
           <p>Education separates man from animal. It’s our duty to pursue it — to understand politics, economy, and our society. A well-educated people make stronger citizens.</p>
         </div>
 
-        <div class="card">
+        <div class="card" style="margin-top:16px;">
           <p class="muted">Explore More</p>
           <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:6px;">
             <button data-nav="majors">Majors</button>
@@ -116,52 +114,39 @@
   };
 
   function back(){ return `<a class="back" href="#home" data-nav="home">← Back</a>`; }
-
-  function getPageKey(){
-    const key = (location.hash || "#home").slice(1);
-    return Object.prototype.hasOwnProperty.call(pages, key) ? key : "home";
+  function keyFromHash(){
+    const k = (location.hash || "#home").slice(1);
+    return pages[k] ? k : "home";
   }
-
-  function render(key){
-    app.innerHTML = pages[key]();
-    // delegate inside main
+  function syncActive(k){
+    nav.querySelectorAll("button[data-page]").forEach(b=>{
+      b.classList.toggle("active", b.getAttribute("data-page") === k);
+    });
+  }
+  function render(k){
+    app.innerHTML = pages[k]();
     app.querySelectorAll("[data-nav]").forEach(el=>{
-      el.addEventListener("click", (e)=>{
+      el.addEventListener("click",(e)=>{
         e.preventDefault();
         navigate(el.getAttribute("data-nav"));
       });
     });
-    syncActive(key);
-    // ensure focus for accessibility
-    app.setAttribute("tabindex","-1");
-    app.focus({preventScroll:true});
+    syncActive(k);
+  }
+  function navigate(k){
+    if(!pages[k]) k = "home";
+    if(location.hash.slice(1) !== k) location.hash = k;
+    else render(k);
   }
 
-  function navigate(key){
-    if (!pages[key]) key = "home";
-    if (location.hash.slice(1) !== key) {
-      location.hash = key;
-    } else {
-      render(key);
-    }
-  }
-
-  function syncActive(key){
-    nav.querySelectorAll("button[data-page]").forEach(btn=>{
-      btn.classList.toggle("active", btn.getAttribute("data-page") === key);
-    });
-  }
-
-  // footer nav
-  nav.addEventListener("click", (e)=>{
+  nav.addEventListener("click",(e)=>{
     const btn = e.target.closest("button[data-page]");
-    if (!btn) return;
+    if(!btn) return;
     e.preventDefault();
     navigate(btn.getAttribute("data-page"));
   });
-
-  window.addEventListener("hashchange", ()=> render(getPageKey()));
+  window.addEventListener("hashchange", ()=>render(keyFromHash()));
 
   // first paint
-  render(getPageKey());
+  render(keyFromHash());
 })();
